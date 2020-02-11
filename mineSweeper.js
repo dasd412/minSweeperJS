@@ -36,6 +36,27 @@ for(let i=0;i<ver;i++){
 
         arr.push(1);
         const td=document.createElement('td');
+        td.addEventListener('contextmenu',function(event){
+            event.preventDefault();
+           const parentTr=event.currentTarget.parentNode;
+           const parentTbody=event.currentTarget.parentNode.parentNode;
+
+           const space=Array.prototype.indexOf.call(parentTr.children,event.currentTarget);
+           const line=Array.prototype.indexOf.call(parentTbody.children,parentTr);
+           
+           /*
+
+           event.currentTarget == 이벤트 리스너가 달려있는 대상
+
+           event.target == 이벤트 리스너가 발생하는 대상
+
+           */
+
+           event.currentTarget.textContent=" !";
+           dataset[line][space]="!";
+
+        });
+
         tr.appendChild(td);
         
     }
@@ -84,3 +105,4 @@ function makeMine(suffle){
         
     }
 }
+
