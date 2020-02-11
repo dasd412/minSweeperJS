@@ -51,9 +51,29 @@ for(let i=0;i<ver;i++){
            event.target == 이벤트 리스너가 발생하는 대상
 
            */
+          if(event.currentTarget.textContent===''||event.currentTarget.textContent=='X'){
+            event.currentTarget.textContent="!";
+          
+          }
+          else if(event.currentTarget.textContent==='!'){
 
-           event.currentTarget.textContent=" !";
-           dataset[line][space]="!";
+            event.currentTarget.textContent="?";
+            
+          }
+          else if(event.currentTarget.textContent==='?'){
+
+           
+            if(dataset[line][space]===1){
+                event.currentTarget.textContent="";
+            }
+            else if(dataset[line][space]==='X'){
+
+                event.currentTarget.textContent='X';
+            }
+              
+          }
+
+           
 
         });
 
@@ -100,7 +120,7 @@ function makeMine(suffle){
         let row=suffle[k]%10;
 
         tbody.children[col].children[row].textContent='X';
-        dataset[col][row]='x';
+        dataset[col][row]='X';
 
         
     }
