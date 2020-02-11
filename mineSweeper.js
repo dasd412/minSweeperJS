@@ -9,6 +9,9 @@ const hor=parseInt(document.querySelector('#hor').value,10),//horizon
 ver=parseInt(document.querySelector("#ver").value,10),//veritcal
 mine=parseInt(document.querySelector("#mine").value,10);//mine count
 
+if(tbody.hasChildNodes()){
+    clearTbody();//initialize tbody
+}
 
 makeDefaultView(hor,ver);
 
@@ -19,6 +22,8 @@ makeMine(suffle);
 });
 
 function makeDefaultView(hor,ver){
+
+    
 
 for(let i=0;i<ver;i++){
     let arr=[];//1-dimension array
@@ -35,6 +40,12 @@ for(let i=0;i<ver;i++){
         
     }
     tbody.append(tr);
+}
+}
+
+function clearTbody(){
+while(tbody.hasChildNodes()){
+    tbody.removeChild(tbody.lastChild);
 }
 }
 
