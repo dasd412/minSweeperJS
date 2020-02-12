@@ -1,0 +1,19 @@
+
+const name='zero';//global variable
+
+function outer(){
+    console.log('outer',name);//console:outer zero
+
+    function inner(){//function definition
+
+        var enemy='nero';//local variable
+
+        console.log('inner',name);//console:inner zero
+    }
+
+    inner();//function call
+}
+
+outer();
+
+console.log(enemy);//'It isn't defined' error message
