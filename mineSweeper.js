@@ -10,7 +10,7 @@ ver=parseInt(document.querySelector("#ver").value,10),//veritcal
 mine=parseInt(document.querySelector("#mine").value,10);//mine count
 
 
-    clearTbody();//initialize tbody
+    initialize();
 
 
 makeDefaultView(hor,ver);
@@ -159,8 +159,11 @@ function makeAdacjent(line, space){
     return adjacent;
 }
 
-function clearTbody(){
+function initialize(){
 tbody.innerHTML="";
+for(let i=dataset.length;i>0;i--){
+dataset.pop();
+}
 }
 
 
