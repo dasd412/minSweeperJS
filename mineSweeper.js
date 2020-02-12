@@ -9,9 +9,9 @@ const hor=parseInt(document.querySelector('#hor').value,10),//horizon
 ver=parseInt(document.querySelector("#ver").value,10),//veritcal
 mine=parseInt(document.querySelector("#mine").value,10);//mine count
 
-if(tbody.hasChildNodes()){
+
     clearTbody();//initialize tbody
-}
+
 
 makeDefaultView(hor,ver);
 
@@ -77,6 +77,32 @@ for(let i=0;i<ver;i++){
 
         });
 
+        td.addEventListener('click',function (event){
+
+            const parentTr=event.currentTarget.parentNode;
+            const parentTbody=event.currentTarget.parentNode.parentNode;
+
+            const space=Array.prototype.indexOf.call(parentTr.children,event.currentTarget);
+            const line=Array.prototype.indexOf.call(parentTbody.children,parentTr);
+
+            if(dataset[line][space]==='X'){
+
+                event.currentTarget.textContent='b';
+            }
+            else{//if number
+
+            const adjacent=makeAdacjent(line,space);
+
+        
+
+             event.currentTarget.textContent=adjacent.filter(function(v){
+                return v==='X';
+            }).length;
+            }
+
+
+        });
+
         tr.appendChild(td);
         
     }
@@ -84,10 +110,57 @@ for(let i=0;i<ver;i++){
 }
 }
 
-function clearTbody(){
-while(tbody.hasChildNodes()){
-    tbody.removeChild(tbody.lastChild);
+function makeAdacjent(line, space){
+    const adjacent=[];
+
+    
+
+    if(line>=1){ 
+      
+        adjacent.push(dataset[line-1][space]);
+        if(space+1<dataset.length){
+        
+        adjacent.push(dataset[line-1][space+1]);
+        }
+        if(space>=1){
+         
+        adjacent.push(dataset[line-1][space-1]);
+    }
+
+    }
+
+    if(space>=1){
+        
+        adjacent.push(dataset[line][space-1]);
+    }
+    if(space+1<dataset.length){
+        
+        adjacent.push(dataset[line][space+1]);
+    }
+
+    
+
+    if(line+1<dataset.length){
+        
+        adjacent.push(dataset[line+1][space]);
+
+        if(space>=1){
+            
+        adjacent.push(dataset[line+1][space-1]);
+        }
+        if(space+1<dataset.length){
+           
+        adjacent.push(dataset[line+1][space+1]);
+        }
+    }
+    
+
+
+    return adjacent;
 }
+
+function clearTbody(){
+tbody.innerHTML="";
 }
 
 
