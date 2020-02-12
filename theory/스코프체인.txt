@@ -1,0 +1,19 @@
+
+const name='zero';//전역 변수
+
+function outer(){
+    console.log('outer',name);//outer zero 출력
+
+    function inner(){//함수 정의
+
+        var enemy='nero';//지역 변수
+
+        console.log('inner',name);//inner zero 출력
+    }
+
+    inner();//함수 호출
+}
+
+outer();//함수 호출
+
+console.log(enemy);//변수 찾을 수 없다고 메시지 뜸
