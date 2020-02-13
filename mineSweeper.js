@@ -137,7 +137,7 @@ for(let i=0;i<ver;i++){
              event.currentTarget.textContent=adjacentCounts;
 
              if(adjacentCounts===0){
-                BFS(line ,space,event);
+                BFS(line ,space,parentTbody);
           
                 
              }
@@ -154,12 +154,11 @@ for(let i=0;i<ver;i++){
 }
 }
 
-function BFS(line,space,event){
+function BFS(line,space,tbody){
 
    let queue=[];
    queue.push(new XY(line,space,dataset[line][space]));
   
-
    visited[line][space]=true;
 
    while(queue.length!==0){
@@ -187,7 +186,8 @@ function BFS(line,space,event){
 
           if(adjacentCounts===0&&visited[targetLine][targetSpace]===false){
 
-            
+            tbody.children[targetLine].children[targetSpace].click();
+        
             visited[targetLine][targetSpace]=true;
             queue.push(targetLine);
             queue.push(targetSpace);
