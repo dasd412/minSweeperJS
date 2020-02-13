@@ -5,6 +5,13 @@ const tbody=document.querySelector("#table tbody");
 
 let visited=[];
 
+const XY=function(line,space,value){
+    this.line=line;
+    this.space=space;
+    this.value=value;
+    return this;
+}
+
 document.querySelector("#exec").addEventListener('click',function(){
 
 const hor=parseInt(document.querySelector('#hor').value,10),//horizon 
@@ -42,7 +49,6 @@ for(let i=0;i<ver;i++){
     }
 }
 
-console.log(visited);
 
 }
 
@@ -88,7 +94,7 @@ for(let i=0;i<ver;i++){
           else if(event.currentTarget.textContent==='?'){
 
            
-            if(dataset[line][space]===1){
+            if(dataset[line][space]===0){
                 event.currentTarget.textContent="";
             }
             else if(dataset[line][space]==='X'){
@@ -131,7 +137,9 @@ for(let i=0;i<ver;i++){
              event.currentTarget.textContent=adjacentCounts;
 
              if(adjacentCounts===0){
-                //BFS OR DFS
+                BFS(line ,space,event);
+          
+                
              }
 
             }
@@ -144,6 +152,102 @@ for(let i=0;i<ver;i++){
     }
     tbody.append(tr);
 }
+}
+
+function BFS(line,space,event){
+
+   let queue=[];
+   queue.push(new XY(line,space,dataset[line][space]));
+  
+
+   visited[line][space]=true;
+
+   while(queue.length!==0){
+
+    let polled=queue.shift();
+    
+
+    let adjacent=getAdjacent(polled.line,polled.space);
+
+    
+     
+
+
+    for(let i=0;i<adjacent.length;i++){
+          let targetLine=adjacent[i].line;
+          let targetSpace=adjacent[i].space;
+
+          let adjacentCounts=getAdjacent(targetLine,targetSpace).filter(function(value){
+
+            return value==='X';
+          }).length;
+
+          
+
+
+          if(adjacentCounts===0&&visited[targetLine][targetSpace]===false){
+
+            
+            visited[targetLine][targetSpace]=true;
+            queue.push(targetLine);
+            queue.push(targetSpace);
+          }
+
+    }
+
+   }
+
+
+}
+
+function getAdjacent(line ,space){
+    const adjacent=[];
+
+    
+
+    if(line>=1){ 
+      
+        adjacent.push(new XY(line-1,space,dataset[line-1][space]));
+        if(space+1<dataset.length){
+        
+        adjacent.push(new XY(line-1,space+1,dataset[line-1][space+1]));
+        }
+        if(space>=1){
+         
+        adjacent.push(new XY(line-1,space-1,dataset[line-1][space-1]));
+    }
+
+    }
+
+    if(space>=1){
+        
+        adjacent.push(new XY(line,space-1,dataset[line][space-1]));
+    }
+    if(space+1<dataset.length){
+        
+        adjacent.push(new XY(line,space+1,dataset[line,space+1]));
+    }
+
+    
+
+    if(line+1<dataset.length){
+        
+        adjacent.push(new XY(line+1,space,dataset[line+1][space]));
+
+        if(space>=1){
+            
+        adjacent.push(new XY(line+1,space-1,dataset[line+1][space-1]));
+        }
+        if(space+1<dataset.length){
+           
+        adjacent.push(new XY(line+1,space+1,dataset[line+1][space+1]));
+        }
+    }
+    
+
+
+    return adjacent;
+
 }
 
 function makeAdacjent(line, space){
