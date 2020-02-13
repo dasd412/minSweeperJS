@@ -3,6 +3,14 @@ let dataset=[];//2-dimension array for mineSweeping
 
 const tbody=document.querySelector("#table tbody");
 
+let visited=[];
+
+const XY=function(line,space,value){
+    this.line=line;
+    this.space=space;
+    this.value=value;
+    return this;
+}
 
 document.querySelector("#exec").addEventListener('click',function(){
 
@@ -13,6 +21,7 @@ mine=parseInt(document.querySelector("#mine").value,10);//mine count
 
     initialize();
 
+    
 
 makeDefaultView(hor,ver);
 
@@ -20,7 +29,28 @@ suffle=suffleMine(hor, ver, mine);
 
 makeMine(suffle);
 
+makeVisited(hor,ver);
+
 });
+
+function makeVisited(hor ,ver){
+
+for(let i=0;i<ver;i++){
+    let arrays=[];
+    visited.push(arrays);
+    for(let j=0;j<hor;j++){
+        if(dataset[i][j]==='X'){
+           arrays.push(true);
+        }
+        else{
+           arrays.push(false); 
+        }
+        
+    }
+}
+
+
+}
 
 function makeDefaultView(hor,ver){
 
@@ -35,7 +65,7 @@ for(let i=0;i<ver;i++){
 
     for(let j=0;j<hor;j++){
 
-        arr.push(1);
+        arr.push(0);
         const td=document.createElement('td');
         td.addEventListener('contextmenu',function(event){
             event.preventDefault();
@@ -64,7 +94,7 @@ for(let i=0;i<ver;i++){
           else if(event.currentTarget.textContent==='?'){
 
            
-            if(dataset[line][space]===1){
+            if(dataset[line][space]===0){
                 event.currentTarget.textContent="";
             }
             else if(dataset[line][space]==='X'){
@@ -107,7 +137,9 @@ for(let i=0;i<ver;i++){
              event.currentTarget.textContent=adjacentCounts;
 
              if(adjacentCounts===0){
-                //BFS OR DFS
+                BFS(line ,space,parentTbody);
+          
+                
              }
 
             }
@@ -120,6 +152,102 @@ for(let i=0;i<ver;i++){
     }
     tbody.append(tr);
 }
+}
+
+function BFS(line,space,tbody){
+
+   let queue=[];
+   queue.push(new XY(line,space,dataset[line][space]));
+  
+   visited[line][space]=true;
+
+   while(queue.length!==0){
+
+    let polled=queue.shift();
+    
+
+    let adjacent=getAdjacentDimension(polled.line,polled.space);
+
+    
+     
+
+
+    for(let i=0;i<adjacent.length;i++){
+          let targetLine=adjacent[i].line;
+          let targetSpace=adjacent[i].space;
+
+          let adjacentCounts=getAdjacentDimension(targetLine,targetSpace).filter(function(value){
+
+            return value==='X';
+          }).length;
+
+          
+
+
+          if(adjacentCounts===0&&visited[targetLine][targetSpace]===false){
+
+            tbody.children[targetLine].children[targetSpace].click();
+        
+            visited[targetLine][targetSpace]=true;
+            queue.push(targetLine);
+            queue.push(targetSpace);
+          }
+
+    }
+
+   }
+
+
+}
+
+function getAdjacentDimension(line ,space){
+    const adjacent=[];
+
+    
+
+    if(line>=1){ 
+      
+        adjacent.push(new XY(line-1,space,dataset[line-1][space]));
+        if(space+1<dataset.length){
+        
+        adjacent.push(new XY(line-1,space+1,dataset[line-1][space+1]));
+        }
+        if(space>=1){
+         
+        adjacent.push(new XY(line-1,space-1,dataset[line-1][space-1]));
+    }
+
+    }
+
+    if(space>=1){
+        
+        adjacent.push(new XY(line,space-1,dataset[line][space-1]));
+    }
+    if(space+1<dataset.length){
+        
+        adjacent.push(new XY(line,space+1,dataset[line,space+1]));
+    }
+
+    
+
+    if(line+1<dataset.length){
+        
+        adjacent.push(new XY(line+1,space,dataset[line+1][space]));
+
+        if(space>=1){
+            
+        adjacent.push(new XY(line+1,space-1,dataset[line+1][space-1]));
+        }
+        if(space+1<dataset.length){
+           
+        adjacent.push(new XY(line+1,space+1,dataset[line+1][space+1]));
+        }
+    }
+    
+
+
+    return adjacent;
+
 }
 
 function makeAdacjent(line, space){
