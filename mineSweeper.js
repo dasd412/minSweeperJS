@@ -3,7 +3,6 @@ let dataset=[];//2-dimension array for mineSweeping
 
 const tbody=document.querySelector("#table tbody");
 
-let stopFlag=false;
 
 document.querySelector("#exec").addEventListener('click',function(){
 
@@ -93,7 +92,7 @@ for(let i=0;i<ver;i++){
             if(dataset[line][space]==='X'){
 
                 event.currentTarget.textContent='b';
-                return;
+                
             }
             else{//if number
 
