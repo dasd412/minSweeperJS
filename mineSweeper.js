@@ -3,6 +3,8 @@ let dataset=[];//2-dimension array for mineSweeping
 
 const tbody=document.querySelector("#table tbody");
 
+let stopFlag=false;
+
 document.querySelector("#exec").addEventListener('click',function(){
 
 const hor=parseInt(document.querySelector('#hor').value,10),//horizon 
@@ -85,9 +87,13 @@ for(let i=0;i<ver;i++){
             const space=Array.prototype.indexOf.call(parentTr.children,event.currentTarget);
             const line=Array.prototype.indexOf.call(parentTbody.children,parentTr);
 
+            
+            event.currentTarget.classList.add('opened');
+
             if(dataset[line][space]==='X'){
 
                 event.currentTarget.textContent='b';
+                return;
             }
             else{//if number
 
@@ -95,9 +101,16 @@ for(let i=0;i<ver;i++){
 
         
 
-             event.currentTarget.textContent=adjacent.filter(function(v){
+            let adjacentCounts=adjacent.filter(function(v){
                 return v==='X';
             }).length;
+
+             event.currentTarget.textContent=adjacentCounts;
+
+             if(adjacentCounts===0){
+                //BFS OR DFS
+             }
+
             }
 
 
