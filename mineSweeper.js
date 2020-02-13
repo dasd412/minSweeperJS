@@ -166,7 +166,7 @@ function BFS(line,space,tbody){
     let polled=queue.shift();
     
 
-    let adjacent=getAdjacent(polled.line,polled.space);
+    let adjacent=getAdjacentDimension(polled.line,polled.space);
 
     
      
@@ -176,7 +176,7 @@ function BFS(line,space,tbody){
           let targetLine=adjacent[i].line;
           let targetSpace=adjacent[i].space;
 
-          let adjacentCounts=getAdjacent(targetLine,targetSpace).filter(function(value){
+          let adjacentCounts=getAdjacentDimension(targetLine,targetSpace).filter(function(value){
 
             return value==='X';
           }).length;
@@ -200,7 +200,7 @@ function BFS(line,space,tbody){
 
 }
 
-function getAdjacent(line ,space){
+function getAdjacentDimension(line ,space){
     const adjacent=[];
 
     
