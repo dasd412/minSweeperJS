@@ -3,14 +3,7 @@ let dataset=[];//2-dimension array for mineSweeping
 
 const tbody=document.querySelector("#table tbody");
 
-const data=function(line,space,value){
-    this.line=line;
-    this.space=space;
-    this.value=value;
-    this.isMine=false;
-    this.visited=false;
-    return this;
-}
+let visited=[];
 
 document.querySelector("#exec").addEventListener('click',function(){
 
@@ -21,6 +14,7 @@ mine=parseInt(document.querySelector("#mine").value,10);//mine count
 
     initialize();
 
+    
 
 makeDefaultView(hor,ver);
 
@@ -28,7 +22,29 @@ suffle=suffleMine(hor, ver, mine);
 
 makeMine(suffle);
 
+makeVisited(hor,ver);
+
 });
+
+function makeVisited(hor ,ver){
+
+for(let i=0;i<ver;i++){
+    let arrays=[];
+    visited.push(arrays);
+    for(let j=0;j<hor;j++){
+        if(dataset[i][j]==='X'){
+           arrays.push(true);
+        }
+        else{
+           arrays.push(false); 
+        }
+        
+    }
+}
+
+console.log(visited);
+
+}
 
 function makeDefaultView(hor,ver){
 
@@ -43,7 +59,7 @@ for(let i=0;i<ver;i++){
 
     for(let j=0;j<hor;j++){
 
-        arr.push(1);
+        arr.push(0);
         const td=document.createElement('td');
         td.addEventListener('contextmenu',function(event){
             event.preventDefault();
