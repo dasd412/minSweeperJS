@@ -3,6 +3,14 @@ let dataset=[];//2-dimension array for mineSweeping
 
 const tbody=document.querySelector("#table tbody");
 
+const data=function(line,space,value){
+    this.line=line;
+    this.space=space;
+    this.value=value;
+    this.isMine=false;
+    this.visited=false;
+    return this;
+}
 
 document.querySelector("#exec").addEventListener('click',function(){
 
