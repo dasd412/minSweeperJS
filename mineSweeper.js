@@ -304,6 +304,11 @@ tbody.innerHTML="";
 for(let i=dataset.length;i>0;i--){
 dataset.pop();
 }
+
+for(let i=visited.length;i>0;i--){
+    visited.pop();
+}
+
 }
 
 
