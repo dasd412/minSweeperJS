@@ -3,6 +3,8 @@ let dataset=[];//2-dimension array for mineSweeping
 
 const tbody=document.querySelector("#table tbody");
 
+let stopFlag=false;
+
 document.querySelector("#result").textContent='';
 
 let visited=[];
@@ -70,6 +72,11 @@ for(let i=0;i<ver;i++){
         arr.push(0);
         const td=document.createElement('td');
         td.addEventListener('contextmenu',function(event){
+
+            if(stopFlag===true){
+                return;
+            }
+
             event.preventDefault();
            const parentTr=event.currentTarget.parentNode;
            const parentTbody=event.currentTarget.parentNode.parentNode;
@@ -112,6 +119,10 @@ for(let i=0;i<ver;i++){
 
         td.addEventListener('click',function (event){
 
+            if(stopFlag===true){
+                return;
+            }
+
             const parentTr=event.currentTarget.parentNode;
             const parentTbody=event.currentTarget.parentNode.parentNode;
 
@@ -125,6 +136,7 @@ for(let i=0;i<ver;i++){
 
                 event.currentTarget.textContent='b';
                 document.querySelector("#result").textContent="Failed";
+                stopFlag=true;
                 
             }
             else{//if number
@@ -311,6 +323,8 @@ dataset.pop();
 for(let i=visited.length;i>0;i--){
     visited.pop();
 }
+
+stopFlag=false;
 
 }
 
