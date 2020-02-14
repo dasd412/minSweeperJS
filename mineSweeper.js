@@ -44,7 +44,7 @@ makeDefaultView(hor,ver,mine);
 
 suffle=suffleMine(hor, ver, mine);
 
-makeMine(suffle);
+makeMine(suffle,ver);
 
 makeVisited(hor,ver);
 
@@ -394,11 +394,11 @@ function suffleMine(hor, ver, mine){
 
 }
 
-function makeMine(suffle){
+function makeMine(suffle,ver){
     for(let k=0;k<suffle.length;k++){
-        let col=Math.floor(suffle[k]/10);
+        let col=Math.floor(suffle[k]/ver);
 
-        let row=suffle[k]%10;
+        let row=suffle[k]%ver;
 
         tbody.children[col].children[row].textContent='X';
         dataset[col][row].mine=true;

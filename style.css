@@ -3,12 +3,19 @@ table{
 }
 
 td{
-    border:1px solid black;
+    border:1px solid #bbb;
     width:20px;
     height: 20px;
     text-align: center;
     line-height: 20px;
-    background: #444;
+    background: #222;
+}
+td.flag{
+    background: red;
+}
+
+td.question{
+background: orange;
 }
 
 td.opened{
