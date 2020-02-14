@@ -9,13 +9,15 @@ document.querySelector("#result").textContent='';
 
 let visited=[];
 
-const state={
+const state=function(){
 
-    opened:-1,
-    question:-2,
-    flag:-3,
-    mine:1,
-    normal:0
+    this.opened=false,
+    this.question=false,//'?'
+    this.flag=false,//'!'
+    this.mine=false,//'x'
+    this.normal=true
+
+    return this;
 }//object for storing data state...
 
 let openSpace=0;//As user open a space, its count goes up
@@ -54,7 +56,7 @@ for(let i=0;i<ver;i++){
     let arrays=[];
     visited.push(arrays);
     for(let j=0;j<hor;j++){
-        if(dataset[i][j]===state.mine){
+        if(dataset[i][j].mine===true){
            arrays.push(true);
         }
         else{
@@ -80,7 +82,7 @@ for(let i=0;i<ver;i++){
 
     for(let j=0;j<hor;j++){
 
-        arr.push(state.normal);
+        arr.push(new state());
         const td=document.createElement('td');
 
 
@@ -106,29 +108,36 @@ for(let i=0;i<ver;i++){
            */
           if(event.currentTarget.textContent===''||event.currentTarget.textContent=='X'){
             event.currentTarget.textContent="!";
+            dataset[line][space].flag=true;
+            
           
           }
           else if(event.currentTarget.textContent==='!'){
 
             event.currentTarget.textContent="?";
-            
+            dataset[line][space].flag=false;
+            dataset[line][space].question=true;
           }
           else if(event.currentTarget.textContent==='?'){
 
            
-            if(dataset[line][space]===state.normal){
+            if(dataset[line][space].normal===true){
                 event.currentTarget.textContent="";
+                
             }
-            else if(dataset[line][space]===state.mine){
+            else if(dataset[line][space].mine===true){
 
                 event.currentTarget.textContent='X';
             }
-              
+            dataset[line][space].question=false;
           }
+
 
            
 
         });
+
+
 
         td.addEventListener('click',function (event){
 
@@ -143,9 +152,14 @@ for(let i=0;i<ver;i++){
             const line=Array.prototype.indexOf.call(parentTbody.children,parentTr);
 
             
+
+            if(dataset[line][space].flag===true|dataset[line][space].question===true){
+                return;
+            }
+
             event.currentTarget.classList.add('opened');
 
-            if(dataset[line][space]===state.mine){
+            if(dataset[line][space].mine===true){
 
                 event.currentTarget.textContent='b';
                 document.querySelector("#result").textContent="Failed";
@@ -165,7 +179,7 @@ for(let i=0;i<ver;i++){
         
 
             let adjacentCounts=adjacent.filter(function(v){
-                return v===state.mine;
+                return v.mine===true;
             }).length;
 
             
@@ -387,7 +401,8 @@ function makeMine(suffle){
         let row=suffle[k]%10;
 
         tbody.children[col].children[row].textContent='X';
-        dataset[col][row]=state.mine;
+        dataset[col][row].mine=true;
+        dataset[col][row].normal=false;
 
         
     }
