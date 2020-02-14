@@ -137,7 +137,7 @@ for(let i=0;i<ver;i++){
                 return v==='X';
             }).length;
 
-             event.currentTarget.textContent=adjacentCounts;
+             event.currentTarget.textContent=adjacentCounts>0?adjacentCounts:'';
 
              if(adjacentCounts===0){
                 BFS(line ,space,parentTbody);
