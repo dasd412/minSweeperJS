@@ -9,6 +9,15 @@ document.querySelector("#result").textContent='';
 
 let visited=[];
 
+const state={
+
+    opened:-1,
+    question:-2,
+    flag:-3,
+    mine:1,
+    normal:0
+}//object for storing data state...
+
 let openSpace=0;//As user open a space, its count goes up
 
 const XY=function(line,space,value){
@@ -45,7 +54,7 @@ for(let i=0;i<ver;i++){
     let arrays=[];
     visited.push(arrays);
     for(let j=0;j<hor;j++){
-        if(dataset[i][j]==='X'){
+        if(dataset[i][j]===state.mine){
            arrays.push(true);
         }
         else{
@@ -71,8 +80,10 @@ for(let i=0;i<ver;i++){
 
     for(let j=0;j<hor;j++){
 
-        arr.push(0);
+        arr.push(state.normal);
         const td=document.createElement('td');
+
+
         td.addEventListener('contextmenu',function(event){
 
             if(stopFlag===true){
@@ -105,10 +116,10 @@ for(let i=0;i<ver;i++){
           else if(event.currentTarget.textContent==='?'){
 
            
-            if(dataset[line][space]===0){
+            if(dataset[line][space]===state.normal){
                 event.currentTarget.textContent="";
             }
-            else if(dataset[line][space]==='X'){
+            else if(dataset[line][space]===state.mine){
 
                 event.currentTarget.textContent='X';
             }
@@ -134,7 +145,7 @@ for(let i=0;i<ver;i++){
             
             event.currentTarget.classList.add('opened');
 
-            if(dataset[line][space]==='X'){
+            if(dataset[line][space]===state.mine){
 
                 event.currentTarget.textContent='b';
                 document.querySelector("#result").textContent="Failed";
@@ -154,8 +165,10 @@ for(let i=0;i<ver;i++){
         
 
             let adjacentCounts=adjacent.filter(function(v){
-                return v==='X';
+                return v===state.mine;
             }).length;
+
+            
 
              event.currentTarget.textContent=adjacentCounts>0?adjacentCounts:'';
 
@@ -374,9 +387,12 @@ function makeMine(suffle){
         let row=suffle[k]%10;
 
         tbody.children[col].children[row].textContent='X';
-        dataset[col][row]='X';
+        dataset[col][row]=state.mine;
 
         
     }
+
+    
+
 }
 
