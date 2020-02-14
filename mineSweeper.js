@@ -9,6 +9,8 @@ document.querySelector("#result").textContent='';
 
 let visited=[];
 
+let openSpace=0;//As user open a space, its count goes up
+
 const XY=function(line,space,value){
     this.line=line;
     this.space=space;
@@ -27,7 +29,7 @@ mine=parseInt(document.querySelector("#mine").value,10);//mine count
 
     
 
-makeDefaultView(hor,ver);
+makeDefaultView(hor,ver,mine);
 
 suffle=suffleMine(hor, ver, mine);
 
@@ -56,7 +58,7 @@ for(let i=0;i<ver;i++){
 
 }
 
-function makeDefaultView(hor,ver){
+function makeDefaultView(hor,ver,mine){
 
     
 
@@ -141,6 +143,12 @@ for(let i=0;i<ver;i++){
             }
             else{//if number
 
+
+            if(visited[line][space]===false){
+            openSpace++;
+            visited[line][space]=true;
+            
+            }
             const adjacent=makeAdacjent(line,space);
 
         
@@ -158,7 +166,13 @@ for(let i=0;i<ver;i++){
              }
 
             }
+            
+          
+            if(openSpace>=parseInt(hor*ver-mine,10)){
 
+                stopFlag=true;
+                document.querySelector("#result").textContent="VICTORY";
+            }//victory condition
 
         });
 
@@ -202,6 +216,7 @@ function BFS(line,space,tbody){
           if(adjacentCounts===0&&visited[targetLine][targetSpace]===false){
 
             tbody.children[targetLine].children[targetSpace].click();
+            
         
             visited[targetLine][targetSpace]=true;
             queue.push(targetLine);
@@ -325,6 +340,7 @@ for(let i=visited.length;i>0;i--){
 }
 
 stopFlag=false;
+openSpace=0;
 
 }
 
