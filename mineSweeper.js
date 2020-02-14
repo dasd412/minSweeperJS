@@ -44,7 +44,7 @@ makeDefaultView(hor,ver,mine);
 
 suffle=suffleMine(hor, ver, mine);
 
-makeMine(suffle,ver);
+makeMine(suffle,hor,ver);
 
 makeVisited(hor,ver);
 
@@ -108,18 +108,24 @@ for(let i=0;i<ver;i++){
            */
           if(event.currentTarget.textContent===''||event.currentTarget.textContent=='X'){
             event.currentTarget.textContent="!";
+            event.currentTarget.classList.add('flag');
             dataset[line][space].flag=true;
             
           
           }
           else if(event.currentTarget.textContent==='!'){
 
+            event.currentTarget.classList.remove('flag');
+            event.currentTarget.classList.add('question');
+
+            
             event.currentTarget.textContent="?";
             dataset[line][space].flag=false;
             dataset[line][space].question=true;
           }
           else if(event.currentTarget.textContent==='?'){
 
+            event.currentTarget.classList.remove('question');
            
             if(dataset[line][space].normal===true){
                 event.currentTarget.textContent="";
@@ -394,13 +400,14 @@ function suffleMine(hor, ver, mine){
 
 }
 
-function makeMine(suffle,ver){
+function makeMine(suffle,hor,ver){
     for(let k=0;k<suffle.length;k++){
-        let col=Math.floor(suffle[k]/ver);
+        let col=Math.floor(suffle[k]/hor);
 
-        let row=suffle[k]%ver;
+        let row=suffle[k]%ver;//<----error occured if hor<ver
+       
 
-        tbody.children[col].children[row].textContent='X';
+        //tbody.children[col].children[row].textContent='X';
         dataset[col][row].mine=true;
         dataset[col][row].normal=false;
 
