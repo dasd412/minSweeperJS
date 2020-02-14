@@ -3,6 +3,8 @@ let dataset=[];//2-dimension array for mineSweeping
 
 const tbody=document.querySelector("#table tbody");
 
+document.querySelector("#result").textContent='';
+
 let visited=[];
 
 const XY=function(line,space,value){
@@ -122,6 +124,7 @@ for(let i=0;i<ver;i++){
             if(dataset[line][space]==='X'){
 
                 event.currentTarget.textContent='b';
+                document.querySelector("#result").textContent="Failed";
                 
             }
             else{//if number
